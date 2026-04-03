@@ -1,0 +1,112 @@
+@import "tailwindcss";
+@source "../src";
+
+:root {
+  --tg-theme-bg-color: #f3f4f6; /* Default soft gray for web */
+  --tg-theme-text-color: #111827;
+  --tg-theme-hint-color: #6b7280;
+  --tg-theme-link-color: #3b82f6;
+  --tg-theme-button-color: #4f46e5;
+  --tg-theme-button-text-color: #ffffff;
+  --tg-theme-secondary-bg-color: #f9fafb;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --tg-theme-bg-color: #09090b;
+    --tg-theme-text-color: #f8fafc;
+    --tg-theme-hint-color: #94a3b8;
+    --tg-theme-link-color: #60a5fa;
+    --tg-theme-button-color: #6366f1;
+    --tg-theme-button-text-color: #ffffff;
+    --tg-theme-secondary-bg-color: #18181b;
+  }
+}
+
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: var(--tg-theme-bg-color);
+  color: var(--tg-theme-text-color);
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* TipTap Generic Styles */
+.tiptap {
+  outline: none;
+  min-height: 120px;
+  font-size: 16px;
+  line-height: 1.5;
+  color: inherit;
+}
+
+.tiptap p {
+  margin: 0;
+}
+
+.tiptap p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: var(--tg-theme-hint-color);
+  pointer-events: none;
+  height: 0;
+}
+
+.tiptap a {
+  color: var(--tg-theme-link-color);
+  text-decoration: underline;
+}
+
+.tiptap code {
+  color: inherit;
+  background-color: var(--tg-theme-secondary-bg-color);
+  border: 1px solid rgba(128, 128, 128, 0.2);
+  border-radius: 6px;
+  padding: 2px 6px;
+  font-family: ui-monospace, SFMono-Regular, monospace;
+  font-size: 14px;
+}
+
+/* Telegram Preview HTML Styles */
+.telegram-html-preview a {
+  color: #3390ec;
+  text-decoration: none;
+}
+.dark .telegram-html-preview a {
+  color: #62bcf9;
+}
+.telegram-html-preview a:hover {
+  text-decoration: underline;
+}
+.telegram-html-preview b, .telegram-html-preview strong {
+  font-weight: 600;
+}
+.telegram-html-preview i, .telegram-html-preview em {
+  font-style: italic;
+}
+.telegram-html-preview s, .telegram-html-preview strike {
+  text-decoration: line-through;
+}
+.telegram-html-preview u {
+  text-decoration: underline;
+}
+.telegram-html-preview code {
+  font-family: ui-monospace, SFMono-Regular, monospace;
+  background: rgba(116, 124, 131, 0.12);
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+.telegram-html-preview blockquote {
+  border-left: 3px solid #3390ec;
+  margin-left: 0;
+  padding-left: 8px;
+  color: inherit;
+}
+.telegram-html-preview p {
+  margin-bottom: 0.5em;
+}
+.telegram-html-preview p:last-child {
+  margin-bottom: 0;
+}
