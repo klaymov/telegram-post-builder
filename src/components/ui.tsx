@@ -71,6 +71,44 @@ export function FancyInput({
   )
 }
 
+export function FancyTextarea({ 
+  icon: Icon, 
+  value, 
+  onChange, 
+  placeholder, 
+  rows = 3
+}: { 
+  icon?: any; 
+  value: string; 
+  onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void; 
+  placeholder: string;
+  rows?: number;
+}) {
+  return (
+    <div className="relative group">
+      {Icon && (
+        <div className="absolute left-4 top-[14px] text-[var(--tg-theme-hint-color)] transition-colors group-focus-within:text-blue-500">
+          <Icon size={18} />
+        </div>
+      )}
+      <textarea
+        value={value}
+        onChange={onChange}
+        placeholder={placeholder}
+        rows={rows}
+        className={cn(
+          "w-full bg-gray-50/50 dark:bg-black/20",
+          "border border-gray-200 dark:border-white/10",
+          "rounded-2xl py-3 text-[15px] font-medium transition-all duration-200 resize-y min-h-[80px]",
+          "focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 focus:bg-white dark:focus:bg-[#2c2c2e]",
+          "placeholder-[var(--tg-theme-hint-color)] text-[var(--tg-theme-text-color)]",
+          Icon ? "pl-11 pr-4" : "px-4"
+        )}
+      />
+    </div>
+  )
+}
+
 export function FancySwitch({ checked, onChange }: { checked: boolean; onChange: () => void }) {
   return (
     <button

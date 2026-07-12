@@ -164,30 +164,38 @@ export async function sendToTelegram() {
   if (!chatId.trim()) throw new Error('Введіть Chat ID')
   if (!htmlContent.trim() && mediaFiles.length === 0) throw new Error('Пост порожній — додайте текст або медіа')
 
+  const chatIds = chatId.split(/[\n,;]+/).map((id) => id.trim()).filter(Boolean)
+  if (chatIds.length === 0) throw new Error('Введіть хоча б один коректний Chat ID')
+
   const replyMarkup = buildReplyMarkup(keyboard)
   const text = cleanTelegramHtml(htmlContent)
 
-  // Без медіа — просто текст
-  if (mediaFiles.length === 0) {
-    const result = await sendTextMessage(botToken, chatId, text, {
-      disableWebPagePreview,
-      replyMarkup,
-    })
-    if (!result.ok) throw new Error(result.description || 'Помилка відправки')
-    return result
-  }
+  const sendPromises = chatIds.map(async (id) => {
+    // Без медіа — просто текст
+    if (mediaFiles.length === 0) {
+      const result = await sendTextMessage(botToken, id, text, {
+        disableWebPagePreview,
+        replyMarkup,
+      })
+      if (!result.ok) throw new Error(`Помилка для ${id}: ${result.description || 'Невідома помилка'}`)
+      return result
+    }
 
-  // Одне медіа
-  if (mediaFiles.length === 1) {
-    const result = await sendSingleMedia(botToken, chatId, mediaFiles[0], mediaType, text, {
-      replyMarkup,
-    })
-    if (!result.ok) throw new Error(result.description || 'Помилка відправки')
-    return result
-  }
+    // Одне медіа
+    if (mediaFiles.length === 1) {
+      const result = await sendSingleMedia(botToken, id, mediaFiles[0], mediaType, text, {
+        replyMarkup,
+      })
+      if (!result.ok) throw new Error(`Помилка для ${id}: ${result.description || 'Невідома помилка'}`)
+      return result
+    }
 
-  // Медіа-група (2+ файлів) — клавіатура не доступна
-  const result = await sendMediaGroupCall(botToken, chatId, mediaFiles, mediaType, text)
-  if (!result.ok) throw new Error(result.description || 'Помилка відправки')
-  return result
+    // Медіа-група (2+ файлів) — клавіатура не доступна
+    const result = await sendMediaGroupCall(botToken, id, mediaFiles, mediaType, text)
+    if (!result.ok) throw new Error(`Помилка для ${id}: ${result.description || 'Невідома помилка'}`)
+    return result
+  })
+
+  const results = await Promise.all(sendPromises)
+  return results
 }
