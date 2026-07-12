@@ -1,6 +1,6 @@
 import { usePostStore } from '../store'
 import { Bot, Hash } from 'lucide-react'
-import { Card, SectionHeader, FancyInput } from './ui'
+import { Card, SectionHeader, FancyInput, FancyTextarea } from './ui'
 
 export default function BotConfig() {
   const botToken = usePostStore((s) => s.botToken)
@@ -25,11 +25,12 @@ export default function BotConfig() {
           placeholder="Токен бота (напр. 12345:ABC...)"
         />
         
-        <FancyInput
+        <FancyTextarea
           icon={Hash}
           value={chatId}
           onChange={(e) => setChatId(e.target.value)}
-          placeholder="Chat ID (напр. -100123... або @channel_name)"
+          placeholder="Chat ID (кілька через кому або з нового рядка)"
+          rows={2}
         />
       </div>
     </Card>
